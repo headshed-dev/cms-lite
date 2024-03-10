@@ -37,8 +37,8 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 # Install and enable zip extension
 RUN docker-php-ext-install zip
 
-# Change Apache port to 9001
-RUN sed -i 's/80/9001/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
+# Change Apache port to 9002
+RUN sed -i 's/80/9002/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 
 # AllowOverride directive
 RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
