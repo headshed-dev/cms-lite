@@ -12,9 +12,9 @@ stop:
 up:
 	docker compose up -d
 composer-update:
-	docker exec laravel-docker bash -c "composer update"
+	docker exec laravel-cms-lite bash -c "composer update"
 data:
-	docker exec laravel-docker bash -c "php artisan migrate --force"
-	docker exec laravel-docker bash -c "php artisan db:seed"
-	docker exec laravel-docker bash -c "chown -R www-data:www-data /var/www/html"
+	docker exec laravel-cms-lite bash -c "php artisan migrate --force"
+	docker exec laravel-cms-lite bash -c "php artisan db:seed"
+	docker exec laravel-cms-lite bash -c "chown -R www-data:www-data /var/www/html"
 

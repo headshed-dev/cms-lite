@@ -1,6 +1,6 @@
 services:
   laravel-docker:
-    container_name: laravel-docker
+    container_name: laravel-cms-lite
     build: .
     volumes:
       - ./laravel-app:/var/www/html
