@@ -36,10 +36,10 @@ class ExportBlogArticlesJob implements ShouldQueue
     public function handle(): void
     {
 
-        Log::info('Exporting blog articles starting');
-
         // TODO : remove this - DEBUG ONLY
+        Log::debug('sleeping for 3 seconds');
         sleep(3);
+        Log::info('Exporting blog articles starting');
 
         $blogs = \App\Models\Blog::all();
 
@@ -58,6 +58,7 @@ class ExportBlogArticlesJob implements ShouldQueue
                 'description' => $blog->description,
                 'keywords' => $blog->keywords,
                 'tags' => $blog->tags,
+                'image' => $blog->image,
             ];
 
             $blogHeadMatter = \Symfony\Component\Yaml\Yaml::dump($blogData);
