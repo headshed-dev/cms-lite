@@ -18,8 +18,9 @@ class ExportBlogArticlesJob implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->onQueue('export_blog_articles');
     }
+
 
 
 
