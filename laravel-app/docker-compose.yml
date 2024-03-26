@@ -31,6 +31,16 @@ services:
             - "${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025"
         networks:
             - sail
+
+    beanstalkd:
+        build:
+            context: ./beanstalkd
+            dockerfile: Dockerfile
+        ports:
+            - "11300:11300"
+        networks:
+            - sail
+
 networks:
     sail:
         driver: bridge
