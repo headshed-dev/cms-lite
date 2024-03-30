@@ -19,7 +19,7 @@ class ExportBlogArticlesJob implements ShouldQueue
      */
     public function __construct()
     {
-        $this->onQueue('export_blog_articles');
+        $this->onQueue('default');
     }
 
     public function middleware()
@@ -50,12 +50,15 @@ class ExportBlogArticlesJob implements ShouldQueue
         $blogs->each(function ($blog) {
 
             $blogData = [
+                'id' => $blog->id,
                 'title' => $blog->title,
                 'slug' => $blog->slug,
                 'description' => $blog->description,
                 'keywords' => $blog->keywords,
                 'tags' => $blog->tags,
                 'image' => $blog->image,
+                'updated_at' => $blog->updated_at,
+                'created_at' => $blog->created_at,
             ];
 
             $blogHeadMatter = \Symfony\Component\Yaml\Yaml::dump($blogData);
@@ -97,8 +100,8 @@ class ExportBlogArticlesJob implements ShouldQueue
         $beanstalkdHost = env('BEANSTALKD_API');
 
         $response = Http::post($beanstalkdHost, [
-            'Name' => 'PostExportJob',
-            'Payload' => 'PostExportJob-cms-lite001',
+            'name' => 'PostExportJob',
+            'payload' => 'PostExportJob-cms-lite001',
         ]);
 
         // Get the response status code

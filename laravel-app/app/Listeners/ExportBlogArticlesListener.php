@@ -24,6 +24,6 @@ class ExportBlogArticlesListener implements ShouldQueue
      */
     public function handle(ExportBlogArticles $event): void
     {
-        ExportBlogArticlesJob::dispatch()->onQueue('export_blog_articles');
+        ExportBlogArticlesJob::dispatch()->onQueue('default');
     }
 }

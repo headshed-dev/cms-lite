@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Events\ExportBlogArticles;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Blog extends Model
 {
@@ -22,4 +23,19 @@ class Blog extends Model
     protected $casts = [
         'tags' => 'array',
     ];
+
+    protected static function booted()
+    {
+        static::created(function ($blog) {
+            event(new ExportBlogArticles($blog));
+        });
+
+        static::updated(function ($blog) {
+            event(new ExportBlogArticles($blog));
+        });
+
+        static::deleted(function ($blog) {
+            event(new ExportBlogArticles($blog));
+        });
+    }
 }
