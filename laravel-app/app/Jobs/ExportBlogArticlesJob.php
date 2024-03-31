@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class ExportBlogArticlesJob implements ShouldQueue
 {
@@ -18,17 +19,13 @@ class ExportBlogArticlesJob implements ShouldQueue
      */
     public function __construct()
     {
-        $this->onQueue('export_blog_articles');
+        $this->onQueue('default');
     }
-
-
-
 
     public function middleware()
     {
         return [(new \Illuminate\Queue\Middleware\WithoutOverlapping())];
     }
-
 
     /**
      * Execute the job.
@@ -36,7 +33,7 @@ class ExportBlogArticlesJob implements ShouldQueue
     public function handle(): void
     {
 
-        // TODO : remove this - DEBUG ONLY
+        // TODO : remove sleep - DEBUG ONLY
         Log::debug('sleeping for 3 seconds');
         sleep(3);
         Log::info('Exporting blog articles starting');
@@ -53,12 +50,15 @@ class ExportBlogArticlesJob implements ShouldQueue
         $blogs->each(function ($blog) {
 
             $blogData = [
+                'id' => $blog->id,
                 'title' => $blog->title,
                 'slug' => $blog->slug,
                 'description' => $blog->description,
                 'keywords' => $blog->keywords,
                 'tags' => $blog->tags,
                 'image' => $blog->image,
+                'updated_at' => $blog->updated_at,
+                'created_at' => $blog->created_at,
             ];
 
             $blogHeadMatter = \Symfony\Component\Yaml\Yaml::dump($blogData);
@@ -73,8 +73,6 @@ class ExportBlogArticlesJob implements ShouldQueue
 
             file_put_contents($blog_file_path, $blog_markdown);
         });
-
-
 
         $settings = \App\Models\Setting::all();
 
@@ -98,5 +96,20 @@ class ExportBlogArticlesJob implements ShouldQueue
         Log::info('Settings exported to ' . $settingsDirectoryPath . '/settings.json');
 
         Log::info('Blog articles and settings export completed');
+
+        $beanstalkdHost = env('BEANSTALKD_API');
+
+        $response = Http::post($beanstalkdHost, [
+            'name' => 'PostExportJob',
+            'payload' => 'PostExportJob-cms-lite001',
+        ]);
+
+        // Get the response status code
+        $status = $response->status();
+        Log::Info('Beanstalkd response status: ' . $status);
+
+        // Get the response body
+        $body = $response->body();
+        Log::Info('Beanstalkd response body: ' . $body);
     }
 }

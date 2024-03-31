@@ -26,6 +26,6 @@ class ExportBlogArticles extends Command
      */
     public function handle()
     {
-        ExportBlogArticlesJob::dispatch()->onQueue('export_blog_articles');
+        ExportBlogArticlesJob::dispatch()->onQueue('default');
     }
 }
