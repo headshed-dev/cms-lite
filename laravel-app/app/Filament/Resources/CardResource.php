@@ -22,7 +22,7 @@ class CardResource extends Resource
 {
     protected static ?string $model = Card::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
     public static function form(Form $form): Form
     {
