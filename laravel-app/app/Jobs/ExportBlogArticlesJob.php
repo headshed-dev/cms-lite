@@ -34,8 +34,8 @@ class ExportBlogArticlesJob implements ShouldQueue
     {
 
         // TODO : remove sleep - DEBUG ONLY
-        Log::debug('sleeping for 3 seconds');
-        sleep(3);
+        // Log::debug('sleeping for 3 seconds');
+        // sleep(3);
         Log::info('Exporting blog articles starting');
 
         $blogs = \App\Models\Blog::all();
@@ -94,6 +94,76 @@ class ExportBlogArticlesJob implements ShouldQueue
         file_put_contents($settingsDirectoryPath . '/settings.json', $settingsJson);
 
         Log::info('Settings exported to ' . $settingsDirectoryPath . '/settings.json');
+
+
+
+        $cards = \App\Models\Card::all();
+
+        $cardsData = [];
+
+        $cards->each(function ($card) use (&$cardsData) {
+
+            $card_category = \App\Models\CardCategory::find($card->category_id);
+
+            $cardData = [
+                'id' => $card->id,
+                'title' => $card->title,
+                'content' => $card->content,
+                'link' => $card->link,
+                'updated_at' => $card->updated_at,
+                'created_at' => $card->created_at,
+                'category' => $card_category ? $card_category->name : null,
+            ];
+
+            $cardsData[] = $cardData;
+        });
+
+        $cardsJson = json_encode($cardsData);
+
+        $cardsDirectoryPath = storage_path('app/exports/cards');
+
+        if (!file_exists($cardsDirectoryPath)) {
+            mkdir($cardsDirectoryPath, 0775, true);
+        }
+
+        file_put_contents($cardsDirectoryPath . '/cards.json', $cardsJson);
+
+
+
+        $textWidgets = \App\Models\TextWidget::all();
+
+        $textWidgetsData = [];
+
+        $textWidgets->each(function ($textWidget) use (&$textWidgetsData) {
+            $category = \App\Models\TextWidgetCategory::find($textWidget->category_id);
+
+            $textWidgetData = [
+                'id' => $textWidget->id,
+                'content' => $textWidget->content,
+                'category' => $category ? $category->name : null,
+                'category_id' => $textWidget->category_id,
+                'updated_at' => $textWidget->updated_at,
+                'created_at' => $textWidget->created_at,
+            ];
+
+            $textWidgetsData[] = $textWidgetData;
+        });
+
+        $textWidgetsJson = json_encode($textWidgetsData);
+
+        $textWidgetsDirectoryPath = storage_path('app/exports/text_widgets');
+
+        if (!file_exists($textWidgetsDirectoryPath)) {
+            mkdir($textWidgetsDirectoryPath, 0775, true);
+        }
+
+        file_put_contents($textWidgetsDirectoryPath . '/text_widgets.json', $textWidgetsJson);
+
+
+
+
+
+
 
         Log::info('Blog articles and settings export completed');
 
