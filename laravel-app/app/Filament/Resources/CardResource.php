@@ -10,13 +10,14 @@ use Filament\Tables\Table;
 use App\Models\CardCategory;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\CardResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CardResource\RelationManagers;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Tables\Columns\TextColumn;
 
 class CardResource extends Resource
 {
@@ -34,8 +35,11 @@ class CardResource extends Resource
                     ->label('Category')
                     ->options(CardCategory::pluck('name', 'id')->toArray())
                     ->required(),
-                MarkdownEditor::make('content')
+                Textarea::make('content')
+                    ->rows(10)
+                    ->cols(20)
                     ->label('Content')
+                    ->required()
                     ->columnSpanFull(),
                 TextInput::make('link')
                     ->label('Link')
