@@ -24,6 +24,11 @@ class Blog extends Model
         'tags' => 'array',
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(BlogCategory::class);
+    }
+    
     protected static function booted()
     {
         static::created(function ($blog) {

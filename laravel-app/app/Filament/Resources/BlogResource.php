@@ -8,7 +8,9 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use App\Models\BlogCategory;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TagsInput;
@@ -29,7 +31,7 @@ class BlogResource extends Resource
         return $form
             ->schema([
                 Section::make('new post')
-                    ->description('news and views')
+                    ->description('news items')
                     ->collapsible()
                     ->schema([
                         TextInput::make('title')
@@ -51,7 +53,11 @@ class BlogResource extends Resource
                         TextInput::make('keywords')
                             ->label('Keywords'),
                         TagsInput::make('tags')
-                            ->label('Tags')
+                            ->label('Tags'),
+                        Select::make('blog_category_id')
+                            ->label('Category')
+                            ->options(BlogCategory::pluck('name', 'id')->toArray())
+                            ->required(),
                     ])->columns(2),
 
                 MarkdownEditor::make('content')
@@ -73,24 +79,13 @@ class BlogResource extends Resource
                 TextColumn::make('title')
                     ->searchable()
                     ->label('Title'),
-                TextColumn::make('slug')
-                    ->searchable()
-                    ->label('Slug'),
-                TextColumn::make('description')
-                    ->searchable()
-                    ->label('Description'),
-                TextColumn::make('keywords')
-                    ->searchable()
-                    ->label('Keywords'),
+                 
                 ImageColumn::make('image')
                     ->searchable()
                     ->label('Image'),
                 TextColumn::make('tags')
                     ->searchable()
                     ->label('Tags'),
-                TextColumn::make('likes')
-                    ->searchable()
-                    ->label('Likes')
             ])
             ->filters([
                 //
