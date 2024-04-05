@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\File;
 
 class ExportBlogArticlesJob implements ShouldQueue
 {
@@ -43,9 +44,18 @@ class ExportBlogArticlesJob implements ShouldQueue
 
         $directoryPath = storage_path('app/exports/blogs');
 
-        if (!file_exists($directoryPath)) {
-            mkdir($directoryPath, 0775, true);
+        // if (!file_exists($directoryPath)) {
+        //     mkdir($directoryPath, 0775, true);
+        // }
+
+
+        if (!File::isDirectory($directoryPath)) {
+            File::makeDirectory($directoryPath, 0775, true);
+        } else {
+            Log::info('Cleaning directory: ' . $directoryPath);
+            File::cleanDirectory($directoryPath);
         }
+
 
         $blogs->each(function ($blog) {
 
