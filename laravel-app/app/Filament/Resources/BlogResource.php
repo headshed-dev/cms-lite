@@ -17,6 +17,7 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\BlogResource\Pages;
 
@@ -54,10 +55,13 @@ class BlogResource extends Resource
                             ->label('Keywords'),
                         TagsInput::make('tags')
                             ->label('Tags'),
-                        Select::make('blog_category_id')
+                        Select::make('category_id')
                             ->label('Category')
                             ->options(BlogCategory::pluck('name', 'id')->toArray())
                             ->required(),
+                        DateTimePicker::make('blog_date')
+                            ->label('date')
+                            ->seconds(false)->default(now()),
                     ])->columns(2),
 
                 MarkdownEditor::make('content')
@@ -78,8 +82,16 @@ class BlogResource extends Resource
             ->columns([
                 TextColumn::make('title')
                     ->searchable()
-                    ->label('Title'),
-                 
+                    ->label('Title')
+                    ->sortable(true),
+                TextColumn::make('blog_date')
+                    ->searchable()
+                    ->label('Date')
+                    ->sortable(),
+                TextColumn::make('category.name')
+                    ->label('Category')
+                    ->searchable(true)
+                    ->sortable(true),
                 ImageColumn::make('image')
                     ->searchable()
                     ->label('Image'),

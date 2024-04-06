@@ -44,11 +44,6 @@ class ExportBlogArticlesJob implements ShouldQueue
 
         $directoryPath = storage_path('app/exports/blogs');
 
-        // if (!file_exists($directoryPath)) {
-        //     mkdir($directoryPath, 0775, true);
-        // }
-
-
         if (!File::isDirectory($directoryPath)) {
             File::makeDirectory($directoryPath, 0775, true);
         } else {
@@ -58,6 +53,8 @@ class ExportBlogArticlesJob implements ShouldQueue
 
 
         $blogs->each(function ($blog) {
+
+            $blog_category = \App\Models\BlogCategory::find($blog->category_id);
 
             $blogData = [
                 'id' => $blog->id,
@@ -69,6 +66,8 @@ class ExportBlogArticlesJob implements ShouldQueue
                 'image' => $blog->image,
                 'updated_at' => $blog->updated_at,
                 'created_at' => $blog->created_at,
+                'category' => $blog_category ? $blog_category->name : null,
+                'blog_date' => $blog->blog_date,
             ];
 
             $blogHeadMatter = \Symfony\Component\Yaml\Yaml::dump($blogData);
