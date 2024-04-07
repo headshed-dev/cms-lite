@@ -168,10 +168,35 @@ class ExportBlogArticlesJob implements ShouldQueue
 
         file_put_contents($textWidgetsDirectoryPath . '/text_widgets.json', $textWidgetsJson);
 
+        $images = \App\Models\Image::all();
 
+        $imageData = [];
 
+        $images->each(function ($image) use (&$imageData) {
 
+            $category = \App\Models\ImageCategory::find($image->category_id);
 
+            $imageData[] = [
+                'id' => $image->id,
+                'description' => $image->description,
+                'alt' => $image->alt,
+                'category' => $category ? $category->name : null,
+                'category_id' => $image->category_id,
+                'updated_at' => $image->updated_at,
+                'created_at' => $image->created_at,
+                'image' => $image->image,
+            ];
+        });
+
+        $imagesJson = json_encode($imageData);
+
+        $imagesDirectoryPath = storage_path('app/exports/images');
+
+        if (!file_exists($imagesDirectoryPath)) {
+            mkdir($imagesDirectoryPath, 0775, true);
+        }
+
+        file_put_contents($imagesDirectoryPath . '/images.json', $imagesJson);
 
 
         Log::info('Blog articles and settings export completed');
