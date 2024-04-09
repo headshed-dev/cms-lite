@@ -35,6 +35,9 @@ class TextWidgetResource extends Resource
                     ->cols(20)
                     ->label('Content')
                     ->required(),
+                TextInput::make('description')
+                    ->label('Description')
+                    ->nullable(),
                 Select::make('category_id')
                     ->label('Category')
                     ->options(TextWidgetCategory::pluck('name', 'id')->toArray())
@@ -46,11 +49,11 @@ class TextWidgetResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('category.name')
                     ->label('Category')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('description')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('content_excerpt')

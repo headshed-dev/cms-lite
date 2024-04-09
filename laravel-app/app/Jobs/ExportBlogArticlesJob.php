@@ -148,6 +148,7 @@ class ExportBlogArticlesJob implements ShouldQueue
 
             $textWidgetData = [
                 'id' => $textWidget->id,
+                'description' => $textWidget->description ? $textWidget->description : null,
                 'content' => $textWidget->content,
                 'category' => $category ? $category->name : null,
                 'category_id' => $textWidget->category_id,

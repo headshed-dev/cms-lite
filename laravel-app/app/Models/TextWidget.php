@@ -11,6 +11,7 @@ class TextWidget extends Model
     use HasFactory;
 
     protected $fillable = [
+        'description',
         'content',
         'category_id',
     ];
