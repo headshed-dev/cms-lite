@@ -32,8 +32,7 @@ class ImageResource extends Resource
                 FileUpload::make('image')
                     ->disk('public')
                     ->directory('images')
-                    ->label('Image')
-                    ->image()
+                    ->label('File')
                     ->required()
                     ->columnSpanFull(),
                 TextInput::make('alt')
