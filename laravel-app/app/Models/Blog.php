@@ -22,6 +22,7 @@ class Blog extends Model
         'category_id',
         'updated_at',
         'blog_date',
+        'is_featured',
     ];
 
     protected $casts = [
@@ -32,11 +33,11 @@ class Blog extends Model
     {
         return $this->belongsTo(BlogCategory::class);
     }
-    
+
     public function getFormattedDateAttribute()
     {
         $defaultDate = Carbon::parse($this->updated_at)->format('Y-m-d');
-        if($this->blog_date) {
+        if ($this->blog_date) {
             $defaultDate = Carbon::parse($this->blog_date)->format('Y-m-d');
         }
         return $defaultDate;

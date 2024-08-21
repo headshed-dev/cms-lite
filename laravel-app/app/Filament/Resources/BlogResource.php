@@ -4,8 +4,10 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use App\Models\Blog;
+use Filament\Forms\Components\Checkbox;
 use Filament\Tables;
 use Filament\Forms\Form;
+use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use App\Models\BlogCategory;
@@ -31,8 +33,9 @@ class BlogResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('new post')
-                    ->description('news items')
+                Section::make('create a new post')
+                    ->columns(2)
+                    ->description('Blog post details')
                     ->collapsible()
                     ->schema([
                         TextInput::make('title')
@@ -56,13 +59,15 @@ class BlogResource extends Resource
                         TagsInput::make('tags')
                             ->label('Tags'),
                         Select::make('category_id')
-                            ->label('Category')
+                            ->label('Category to post')
                             ->options(BlogCategory::pluck('name', 'id')->toArray())
                             ->required(),
                         DateTimePicker::make('blog_date')
                             ->label('date')
                             ->seconds(false)->default(now()),
-                    ])->columns(2),
+                        Checkbox::make('is_featured')
+                            ->label('Featured'),
+                    ]),
 
                 MarkdownEditor::make('content')
                     ->label('Content')
@@ -79,6 +84,7 @@ class BlogResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->description('Blog posts')
             ->columns([
                 TextColumn::make('title')
                     ->searchable()
@@ -92,12 +98,18 @@ class BlogResource extends Resource
                     ->label('Category')
                     ->searchable(true)
                     ->sortable(true),
+                BooleanColumn::make('is_featured')
+                    ->label('Featured')
+                    ->sortable(true)
+                    ->alignCenter(),
+
                 ImageColumn::make('image')
                     ->searchable()
                     ->label('Image'),
                 TextColumn::make('tags')
                     ->searchable()
                     ->label('Tags'),
+
             ])
             ->filters([
                 //

@@ -68,6 +68,7 @@ class ExportBlogArticlesJob implements ShouldQueue
                 'created_at' => $blog->created_at,
                 'category' => $blog_category ? $blog_category->name : null,
                 'blog_date' => $blog->blog_date,
+                'is_featured' => $blog->is_featured,
             ];
 
             $blogHeadMatter = \Symfony\Component\Yaml\Yaml::dump($blogData);
@@ -122,6 +123,7 @@ class ExportBlogArticlesJob implements ShouldQueue
                 'updated_at' => $card->updated_at,
                 'created_at' => $card->created_at,
                 'category' => $card_category ? $card_category->name : null,
+                'is_featured' => $card->is_featured ? $card->is_featured : false,
             ];
 
             $cardsData[] = $cardData;
