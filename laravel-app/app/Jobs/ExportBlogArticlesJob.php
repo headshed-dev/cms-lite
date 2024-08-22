@@ -37,7 +37,9 @@ class ExportBlogArticlesJob implements ShouldQueue
         // TODO : remove sleep - DEBUG ONLY
         // Log::debug('sleeping for 3 seconds');
         // sleep(3);
-        Log::info('Exporting blog articles starting');
+        Log::info('>>HERE>> Exporting blog articles starting');
+        Log::info('>>HERE>> Exporting blog articles starting');
+        Log::info('>>HERE>> Exporting blog articles starting');
 
         $blogs = \App\Models\Blog::all();
 
@@ -77,9 +79,9 @@ class ExportBlogArticlesJob implements ShouldQueue
 
             Log::info('Exporting blog article: ' . $blog_file_path);
 
-            Log::info('Exporting blog data: ' . $blogData);
+            // Log::info('Exporting blog data: ' . $blogData);
 
-            Log::info('Exporting blogHedMatter: ' . $blogHeadMatter);
+            //Log::info('Exporting blogHedMatter: ' . $blogHeadMatter);
 
             $blog_markdown = "---\n" . $blogHeadMatter . "---\n\n" . $blog->content;
 

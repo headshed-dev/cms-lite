@@ -2,3 +2,6 @@ laravel-app/producer_localhost
 laravel-app/producer_docker
 laravel-app/consumer
 copy_dev_data.sh
+docker-compose-prod.yml
+*.tgz
+laravel-app/find_images.sh
