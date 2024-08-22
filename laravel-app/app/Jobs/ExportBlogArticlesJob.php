@@ -126,6 +126,9 @@ class ExportBlogArticlesJob implements ShouldQueue
                 'is_featured' => $card->is_featured ? $card->is_featured : false,
             ];
 
+            Log::info('Exporting card title: ' . $card->title);
+            Log::info('Exporting card featured: ' . $card->is_featured);
+
             $cardsData[] = $cardData;
         });
 
