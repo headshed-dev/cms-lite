@@ -77,7 +77,9 @@ class ExportBlogArticlesJob implements ShouldQueue
 
             Log::info('Exporting blog article: ' . $blog_file_path);
 
-            Log::info('Exporting blog article: ' . $blog_file_path);
+            Log::info('Exporting blog data: ' . $blogData);
+
+            Log::info('Exporting blogHedMatter: ' . $blogHeadMatter);
 
             $blog_markdown = "---\n" . $blogHeadMatter . "---\n\n" . $blog->content;
 
