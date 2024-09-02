@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ExportBlogArticles' => [
             'App\Listeners\ExportBlogArticlesListener',
         ],
+        'App\Events\PublishStaticSite' => [
+            'App\Listeners\PublishStaticSiteListener',
+        ],
     ];
 
     /**
