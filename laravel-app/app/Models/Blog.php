@@ -6,10 +6,12 @@ use Illuminate\Support\Carbon;
 use App\Events\ExportBlogArticles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Blog extends Model
+class Blog extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'title',
