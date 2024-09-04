@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class TextWidget extends Model
+class TextWidget extends Model implements Auditable
 {
     use HasFactory;
-
+    use \OwenIt\Auditing\Auditable;
+    
     protected $fillable = [
         'description',
         'content',

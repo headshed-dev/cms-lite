@@ -59,8 +59,10 @@ class AdminPanelProvider extends PanelProvider
                 'auth',
                 'verified',
             ])
+            ->databaseNotifications()
             ->plugins([
                 FilamentShieldPlugin::make()
             ]);
+
     }
 }

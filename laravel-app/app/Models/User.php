@@ -12,9 +12,11 @@ use Filament\Models\Contracts\FilamentUser;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use OwenIt\Auditing\Contracts\Auditable;
+
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Auditable
 {
     use HasApiTokens;
     use HasFactory;
@@ -24,6 +26,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     use Notifiable;
     use HasRoles;
     use HasPanelShield;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that are mass assignable.

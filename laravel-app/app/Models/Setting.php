@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Events\ExportBlogArticles;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Setting extends Model
+class Setting extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     protected $primaryKey = 'key';
 
     public $incrementing = false;
