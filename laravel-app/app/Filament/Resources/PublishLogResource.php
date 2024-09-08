@@ -22,6 +22,8 @@ class PublishLogResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Configuration';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -34,9 +36,9 @@ class PublishLogResource extends Resource
                     ->required()
                     ->hidden(),
             ]);
-    
+
         }
-    
+
 
     public static function table(Table $table): Table
     {
@@ -50,7 +52,7 @@ class PublishLogResource extends Resource
                     ->label('Changes Made'),
                 TextColumn::make('user.name')
                     ->searchable()
-                    ->label('User Name'),                
+                    ->label('User Name'),
             ])
             ->filters([
                 //

@@ -20,6 +20,8 @@ class SettingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
 
+    protected static ?string $navigationGroup = 'Configuration';
+
     public static function canCreate(): bool
     {
         return false;

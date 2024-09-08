@@ -21,6 +21,10 @@ class TextWidgetCategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
+    protected static ?string $navigationParentItem = 'Text Widgets';
+
+    protected static ?string $navigationGroup = 'Partials';
+
     public static function form(Form $form): Form
     {
         return $form

@@ -25,6 +25,8 @@ class CardResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
+    protected static ?string $navigationGroup = 'Partials';
+
     public static function form(Form $form): Form
     {
         return $form
