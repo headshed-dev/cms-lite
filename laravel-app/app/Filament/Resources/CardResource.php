@@ -18,6 +18,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\CardResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CardResource\RelationManagers;
+use Filament\Forms\Components\FileUpload;
 
 class CardResource extends Resource
 {
@@ -43,9 +44,16 @@ class CardResource extends Resource
                     ->label('Content')
                     ->required()
                     ->columnSpanFull(),
+                    FileUpload::make('image')
+                    ->disk('public')
+                    ->directory('cards')
+                    ->label('Image')
+                    ->columnSpanFull(),
+                TextInput::make('alt')
+                    ->label('Alt'),
                 TextInput::make('link')
-                    ->label('Link')
-                    ->required(),
+                        ->label('Link'),
+
             ]);
     }
 
