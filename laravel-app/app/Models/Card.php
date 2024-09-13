@@ -16,6 +16,7 @@ class Card extends Model implements Auditable
         'content',
         'link',
         'category_id',
+        'image',
     ];
 
     public function category()
