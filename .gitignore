@@ -5,3 +5,6 @@ copy_dev_data.sh
 docker-compose-prod.yml
 *.tgz
 laravel-app/find_images.sh
+laravel-app-additions
+laravel-app-mods/
+laravel-app.tar
