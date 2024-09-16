@@ -31,27 +31,29 @@ class PublishLogResource extends Resource
                 TextInput::make('description')
                     ->label('Changes made to the website before publishing to the web')
                     ->required(),
-                    TextInput::make('user_id')
+                TextInput::make('user_id')
                     ->default(auth()->user()->id)
                     ->required()
                     ->hidden(),
             ]);
-
-        }
+    }
 
 
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('updated_at', 'desc') // Set default sorting to most recent first
             ->columns([
                 TextColumn::make('updated_at')
                     ->searchable()
+                    ->sortable()
                     ->label('Date Published'),
                 TextColumn::make('description')
                     ->searchable()
                     ->label('Changes Made'),
                 TextColumn::make('user.name')
                     ->searchable()
+                    ->sortable()
                     ->label('User Name'),
             ])
             ->filters([
