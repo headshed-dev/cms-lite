@@ -24,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PublishStaticSite' => [
             'App\Listeners\PublishStaticSiteListener',
         ],
+        'App\Events\UpsertMarkdownCard' => [
+            'App\Listeners\UpsertMarkdownCardListener',
+        ],
     ];
 
     /**
