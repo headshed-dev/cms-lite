@@ -2,6 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Models\Image;
+use App\Models\MarkdownCard;
+use App\Models\MarkdownCardCategory;
+use App\Models\TextWidget;
+use App\Models\TextWidgetCategory;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -118,7 +123,7 @@ class ExportBlogArticlesJob implements ShouldQueue
         $cards->each(function ($card) use (&$cardsData) {
 
             $card_category = \App\Models\CardCategory::find($card->category_id);
-
+//
             $cardData = [
                 'id' => $card->id,
                 'title' => $card->title,
@@ -148,12 +153,12 @@ class ExportBlogArticlesJob implements ShouldQueue
 
 
 
-        $textWidgets = \App\Models\TextWidget::all();
+        $textWidgets = TextWidget::all();
 
         $textWidgetsData = [];
 
         $textWidgets->each(function ($textWidget) use (&$textWidgetsData) {
-            $category = \App\Models\TextWidgetCategory::find($textWidget->category_id);
+            $category = TextWidgetCategory::find($textWidget->category_id);
 
             $textWidgetData = [
                 'id' => $textWidget->id,
@@ -178,7 +183,7 @@ class ExportBlogArticlesJob implements ShouldQueue
 
         file_put_contents($textWidgetsDirectoryPath . '/text_widgets.json', $textWidgetsJson);
 
-        $images = \App\Models\Image::all();
+        $images = Image::all();
 
         $imageData = [];
 
@@ -207,6 +212,46 @@ class ExportBlogArticlesJob implements ShouldQueue
         }
 
         file_put_contents($imagesDirectoryPath . '/images.json', $imagesJson);
+
+
+
+        $markdownCards = MarkdownCard::all();
+
+        $markdownCardsData = [];
+
+        Log::info('Exporting markdown cards');
+
+        $markdownCards->each(function ($markdownCard) use (&$markdownCardsData) {
+
+            $category = \App\Models\MarkdownCardCategory::find($markdownCard->category_id);
+
+            $markdownCardData = [
+                'id' => $markdownCard->id,
+                'name' => $markdownCard->name,
+                'content' => $markdownCard->content,
+                'category_id' => $markdownCard->markdown_card_category_id,
+                'category' => MarkdownCardCategory::find($markdownCard->markdown_card_category_id)->name,
+                'updated_at' => $markdownCard->updated_at,
+                'created_at' => $markdownCard->created_at,
+            ];
+
+            $markdownCardsData[] = $markdownCardData;
+        });
+
+        Log::info('Exporting this number of markdown cards: ' . count($markdownCardsData));
+
+        $markdownCardsJson = json_encode($markdownCardsData);
+
+        $markdownCardsDirectoryPath = storage_path('app/exports/markdown_cards');
+
+        Log::info('Exporting markdown cards to ' . $markdownCardsDirectoryPath . '/markdown_cards.json');
+
+        if (!file_exists($markdownCardsDirectoryPath)) {
+            mkdir($markdownCardsDirectoryPath, 0775, true);
+        }
+
+        file_put_contents($markdownCardsDirectoryPath . '/markdown_cards.json', $markdownCardsJson);
+
 
 
         Log::info('Blog articles and settings export completed');
