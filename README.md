@@ -22,9 +22,6 @@ Secure and Cost-Effective: Without the complexity of dynamic back-ends, static w
 
 While static websites offer many benefits, creating them often requires technical skills that can be a barrier for many. CMS-Lite aims to bridge this gap by providing a simple and accessible platform for building and managing static websites.
 
-# Contributing
-
-We welcome contributions from the community! Please refer to our [Contributing Guidelines] for more information. 1 
 
 # License
 
